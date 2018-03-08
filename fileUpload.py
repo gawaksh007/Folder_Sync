@@ -47,3 +47,8 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         observer.stop()
     observer.join()
+
+
+#Folder synchronisation can be done with the help of any of the online service that provides
+#us with the ability to create an app through the API like google cloud.
+#If you want to replicate the working of this program i'd suggest you to try it with google api

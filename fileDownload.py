@@ -15,13 +15,13 @@ except Exception as e:
 
 client = dropbox.Dropbox(ACCESS_TOKEN)
 
-#We recursively check the dropbox folder to list all files.
+#Recursively checks the folder for dropbox files
 
 results=client.files_list_folder(DROPBOX_SYNC_LOCATION,recursive=True)
 
 results=results.entries
 
-#iterate through the files on dropbox and obtain the respective file path.
+#Parse through the files present in dropbox and obtain the respective path
 for object in results:
 	if isinstance(object,dropbox.files.FileMetadata):
 		file_path=object.path_display
@@ -29,7 +29,7 @@ for object in results:
 		#convert unicode string into ascii
 		file_path=unicodedata.normalize('NFKD', file_path).encode('ascii','ignore')
 		
-		#dowload the file from dropbox
+		#downloading the neccesary files from the dropbox
 		md, res = client.files_download(file_path)
 		data = res.content
 		
@@ -41,9 +41,17 @@ for object in results:
 		if not os.path.exists(os.path.dirname(file_path)):
 			try:
 				os.makedirs(os.path.dirname(file_path))
-			except OSError as exc: # Guard against race condition
+			except OSError as exc: # This condition guards against the race condition
 				if exc.errno != errno.EEXIST:
 					raise
 		with open(file_path, "w+") as f:
 			f.write(data)
 
+
+#RaceCondition : A race condition occurs when two or more threads can
+#access shared data and they try to change it at the same time. 
+#Because the thread scheduling algorithm can swap between threads at any time, 
+#you don't know the order in which the threads will attempt 
+#to access the shared data. Therefore, the result of the change 
+#in data is dependent on the thread scheduling algorithm, i.e. 
+#both threads are "racing" to access change the data.
