@@ -1,5 +1,6 @@
 # Folder_Sync
 
+#This method is rudimentary now as dropbox has changed their rules in regard of using their API's, a better scenario would be to use google drive API, most things would remain same about the process, if any doubt arises, mail me at gawaksh007@gmail.com
 
 Setting Up and Usage:
 
